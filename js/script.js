@@ -75,4 +75,30 @@ window.addEventListener('DOMContentLoaded', function(){
    };
 
    setClock('timer', deadLine)
+});
+
+// modal
+
+let more = document.querySelector('.more'),
+    overlay = document.querySelector('.overlay'),
+    closeBtn = document.querySelector('.popup-close');
+
+more.addEventListener('click', function(){
+    overlay.style.display = 'block';
+    this.classList.add('more-splash');
+});
+
+closeBtn.addEventListener('click', function(){
+    overlay.style.display = '';
+    more.classList.remove('more-splash');
+});
+
+let descriptionBtns = document.querySelectorAll('.description-btn');
+let info = document.querySelector('.info');
+info.addEventListener('click', function(event){
+    let target = event.target;
+    if (target.classList.contains('description-btn')){
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+    }
 })
