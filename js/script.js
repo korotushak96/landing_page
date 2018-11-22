@@ -102,3 +102,74 @@ info.addEventListener('click', function(event){
         this.classList.add('more-splash');
     }
 })
+
+// form 
+let form = document.querySelector('.main-form'),
+    inputs = form.getElementsByTagName('input'),
+    statusMessage=document.createElement('div'),
+    message = {
+        load: 'loading',
+        done: 'All is ok. We will call you',
+        err: 'Error. Repeat.please!'
+    };
+
+    statusMessage.classList.add('status');
+
+form.addEventListener('submit', function(event){
+    event.preventDefault();
+    form.appendChild(statusMessage);
+    let request = new XMLHttpRequest();
+
+    request.open('POST', 'server.php');
+    request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+    let formData = new FormData(form);
+    
+    let obj = {};
+    formData.forEach(function(item, key){
+        obj[key]= item;
+    })
+    
+    let json = JSON.stringify(obj);
+
+    request.send(json);
+
+    request.addEventListener('readystatechange', function(){
+        if (request.readyState<4){
+            statusMessage.innerHTML = message.load;
+        } else if (request.readyState == 4 && request.status==200){
+            statusMessage.innerHTML = message.done;
+        } else statusMessage.innerHTML = message.err;
+    })
+});
+
+let downForm = document.querySelector('#form'),
+    downInputs = downForm.getElementsByTagName('input');
+
+    downForm.addEventListener('submit', function(event){
+        event.preventDefault();
+        downForm.appendChild(statusMessage);
+        let request = new XMLHttpRequest();
+    
+        request.open('POST', 'server.php');
+        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    
+        let formData = new FormData(downForm);
+        
+        let obj = {};
+        formData.forEach(function(item, key){
+            obj[key]= item;
+        })
+        
+        let json = JSON.stringify(obj);
+    
+        request.send(json);
+    
+        request.addEventListener('readystatechange', function(){
+            if (request.readyState<4){
+                statusMessage.innerHTML = message.load;
+            } else if (request.readyState == 4 && request.status==200){
+                statusMessage.innerHTML = message.done;
+            } else statusMessage.innerHTML = message.err;
+        })
+    });
