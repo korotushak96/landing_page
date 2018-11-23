@@ -173,3 +173,45 @@ let downForm = document.querySelector('#form'),
             } else statusMessage.innerHTML = message.err;
         })
     });
+
+    // slider
+
+    let slides = document.querySelectorAll('.slider-item'),
+        dotWrap = document.querySelector('.slider-dots'),
+        dots = document.querySelectorAll('.dot'),
+        prev = document.querySelector('.prev'),
+        next = document.querySelector('.next'),
+        slideIndicator = 0;
+
+    showSlides(slideIndicator);
+    function showSlides(n){
+        if (n>slides.length-1) slideIndicator = 0;
+        if (n<0) slideIndicator = slides.length -  1;
+
+        slides.forEach(slide => slide.style.display = 'none');
+         slides[slideIndicator].style.display = 'block';
+
+         dots.forEach(dot => dot.classList.remove('dot-active'));
+         dots[slideIndicator].classList.add('dot-active');
+    };
+
+    function currentSlide(n){
+         slideIndicator = n;
+         showSlides(slideIndicator);
+    }
+
+    function plusSlide(n){
+         slideIndicator += n;
+         showSlides(slideIndicator);
+     };
+
+     next.addEventListener('click',() => plusSlide(1));
+    prev.addEventListener('click',() => plusSlide(-1));
+
+     dotWrap.addEventListener('click', function(event){
+        for (let i=0; i<dots.length; i++){
+            if(event.target.classList.contains('dot') && event.target == dots[i]){
+                currentSlide(i);
+            }
+         }
+    })
